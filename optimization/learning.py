@@ -8,8 +8,11 @@ import torch.optim as optim
 
 from torch.utils.data import DataLoader 
 
-from optimization.dataholder import DataHolder 
+from datalib.data_holder import DHolder
+from datalib.data_loader import DLoader 
+
 from optimization.constants import * 
+
 from models.discriminator import MDiscriminators
 from models.generator import Generator
 
@@ -31,14 +34,16 @@ def save_images(XA, XA_B, path_to):
 def train(source_path, nb_epochs, bt_size):
     device = th.device('cuda:0') if th.cuda.is_available() else 'cpu' 
 
-    source = DataHolder(source_path, '*.jpg', mapper)
+    source = DHolder(source_path, '*.jpg', mapper)
     loader = DataLoader(dataset=source, shuffle=True, batch_size=bt_size)
 
     D_X0 = MDiscriminators(i_dim, n_dim, n_down, n_models).to(device)
     D_X1 = MDiscriminators(i_dim, n_dim, n_down, n_models).to(device)
     G_X0 = Generator(i_dim, n_dim, n_down, s_dim, n_block_c, n_block_s, n_rblock, n_sampler, hidden_neurons).to(device)
     G_X1 = Generator(i_dim, n_dim, n_down, s_dim, n_block_c, n_block_s, n_rblock, n_sampler, hidden_neurons).to(device)
+    
     print('generator and discriminator are ready')
+    
     CT_X = 10  # constant scale for X reconstruction loss  
     CT_C = 1   # constant scale for C reconstruction loss 
     CT_S = 1   # constant scale for S reconstruction loss 
