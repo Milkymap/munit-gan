@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 from glob import glob 
 from os import path 
 
-class DataHolder(Dataset):
+class DHolder(Dataset):
     def __init__(self, root, extension='*.jpg', mapper=None):
         self.files = glob(path.join(root, extension))
         self.mapper = mapper 
@@ -31,6 +31,4 @@ class DataHolder(Dataset):
 
 
 if __name__ == '__main__':
-    source = DataHolder('../BICYCLE-GAN/data/edges2shoes/val/')
-    L, R = source[1]    
-    print(L.shape, R.shape)
+    pass 
